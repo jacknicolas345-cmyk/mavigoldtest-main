@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fa" dir="rtl">
-      <body className="bg-white text-gray-900">
+      <body className="bg-black text-light font-yekan">
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />

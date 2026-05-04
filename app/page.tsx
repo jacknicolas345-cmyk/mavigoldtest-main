@@ -1,31 +1,42 @@
-import HeroBanner from '@/components/HeroBanner';
-import CategorySlider from '@/components/CategorySlider';
-import ProductCard from '@/components/ProductCard';
+import CategorySlider from "@/components/CategorySlider";
+import ProductCard from "@/components/ProductCard";
 
 const mockProducts = [
-  { id: 1, title: 'انگشتر طلا', price: 12000000, image: '/images/ring1.jpg' },
-  { id: 2, title: 'گردنبند طلا', price: 18500000, image: '/images/necklace1.jpg' },
-  { id: 3, title: 'دستبند طلا', price: 9500000, image: '/images/bracelet1.jpg' },
+  { title: "گردنبند طلا ۱۸ عیار", price: "12,500,000", image: "/images/p1.jpg" },
+  { title: "انگشتر زنانه طلا", price: "8,900,000", image: "/images/p2.jpg" },
+  { title: "دستبند ظریف طلا", price: "6,700,000", image: "/images/p3.jpg" },
 ];
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <div className="space-y-12">
-      <HeroBanner />
-
-      <section className="container mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-4">دسته‌بندی‌ها</h2>
-        <CategorySlider />
+    <main className="bg-black text-light">
+      
+      {/* Hero */}
+      <section className="relative h-[400px]">
+        <img
+          src="/images/hero.jpg"
+          className="w-full h-full object-cover opacity-70"
+        />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+          <h1 className="text-5xl font-bold text-gold drop-shadow-lg">
+            جواهرات لوکس
+          </h1>
+          <p className="mt-4 text-xl">درخشش واقعی را تجربه کنید</p>
+        </div>
       </section>
 
-      <section className="container mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-4">محصولات منتخب</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {mockProducts.map((p) => (
-            <ProductCard key={p.id} product={p} />
+      <CategorySlider />
+
+      {/* Products */}
+      <section className="max-w-7xl mx-auto py-10 px-6">
+        <h2 className="text-3xl text-gold font-bold mb-8">محصولات ویژه</h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          {mockProducts.map((p, i) => (
+            <ProductCard key={i} {...p} />
           ))}
         </div>
       </section>
-    </div>
+    </main>
   );
 }

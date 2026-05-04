@@ -1,20 +1,26 @@
-import Link from 'next/link';
-
 export default function Header() {
   return (
-    <header className="border-b bg-white/80 backdrop-blur sticky top-0 z-40">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="text-xl font-bold tracking-wide">
-          Mavi Gold
-        </Link>
-        <nav className="flex items-center gap-6 text-sm">
-          <Link href="/">خانه</Link>
-          <Link href="/category/rings">انگشتر</Link>
-          <Link href="/category/necklaces">گردنبند</Link>
-          <Link href="/about">درباره ما</Link>
-          <Link href="/contact">تماس با ما</Link>
-          <Link href="/cart">سبد خرید</Link>
+    <header className="w-full bg-black text-light shadow-gold">
+      <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
+        
+        {/* Logo */}
+        <h1 className="text-2xl font-bold text-gold tracking-widest">
+          MAVI GOLD
+        </h1>
+        <div className="bg-black text-gold p-4">تست رنگ‌ها</div>
+
+        {/* Menu */}
+        <nav className="hidden md:flex gap-8 text-lg">
+          <a className="hover:text-gold transition">خانه</a>
+          <a className="hover:text-gold transition">محصولات</a>
+          <a className="hover:text-gold transition">دسته‌بندی‌ها</a>
+          <a className="hover:text-gold transition">تماس با ما</a>
         </nav>
+
+        {/* Cart */}
+        <div className="text-gold text-xl cursor-pointer hover:scale-110 transition">
+          🛒
+        </div>
       </div>
     </header>
   );
