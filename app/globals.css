@@ -1,8 +1,68 @@
 @import "tailwindcss";
 
+/* تست مستقیم بدون متغیر */
+.gold-text {
+  color: #d4af37 !important;
+}
+
+.bg-black-test {
+  background-color: #000 !important;
+}
+
+
+/* @import "tailwindcss";
+
+@theme {
+  --color-gold: #d4af37;
+  --color-light: #f8f9fa;
+  --color-dark: #121212;
+
+  --shadow-gold: 0 4px 15px -3px rgba(212, 175, 55, 0.4), 0 2px 6px -2px rgba(212, 175, 55, 0.2);
+
+  --font-yekan: "Tahoma", sans-serif;
+}
+
+@layer base {
+  *, ::after, ::before {
+    border-color: var(--color-gold);
+  }
+  
+  body {
+    @apply bg-white text-slate-900 antialiased;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+header, footer, main, section {
+  display: block;
+} */
+
+/* @import "tailwindcss";
+
 @theme {
   --color-dark: #1a1a1a;
+  --color-light: #f8f9fa;
+  --font-yekan: "Yekan", "Tahoma", sans-serif;
 }
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+@layer utilities {
+  .img-placeholder {
+    @apply bg-slate-200 flex items-center justify-center text-slate-500 font-sans border border-slate-300;
+    position: relative;
+    overflow: hidden;
+  }
+  .img-placeholder::after {
+    content: "تصویر موجود نیست";
+    @apply text-xs absolute;
+  }
+} */
 
 /* @tailwind base;
 @tailwind components;
