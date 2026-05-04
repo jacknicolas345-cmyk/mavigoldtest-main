@@ -1,13 +1,30 @@
 @import "tailwindcss";
 
-/* تست مستقیم بدون متغیر */
+@theme {
+  --color-gold: #c5a059; /* طلایی ملایم‌تر و شیک‌تر */
+  --color-dark: #0f0f0f;
+  --color-gold-light: #e5d5b7;
+  
+  /* اضافه کردن انیمیشن نرم برای کارت‌ها */
+  --animate-fade-in: fade-in 1s ease-out;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-[#1a1a1a] antialiased tracking-wide;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+  }
+}
+
+/* @import "tailwindcss";
+
 .gold-text {
   color: #d4af37 !important;
 }
 
 .bg-black-test {
   background-color: #000 !important;
-}
+} */
 
 
 /* @import "tailwindcss";
