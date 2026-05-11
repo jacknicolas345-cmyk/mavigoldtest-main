@@ -3,25 +3,28 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "build:cloudflare": "opennextjs-cloudflare build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.0",
-    "next": "14.1.0",
+    "next": "^15.5.18",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "^4.2.4"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.19.9",
     "@tailwindcss/postcss": "^4.2.4",
     "@types/node": "25.6.0",
     "@types/react": "19.2.14",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.13",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "wrangler": "^4.90.0"
   }
 }
