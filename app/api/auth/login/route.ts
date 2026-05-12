@@ -9,16 +9,18 @@ export async function POST(req: Request) {
   const { email, password } = await req.json();
 
   const user = await User.findOne({ email });
-  if (!user) return NextResponse.json({ error: "Invalid credentials" }, { status: 400 });
+  if (!user)
+    return NextResponse.json({ error: "ایمیل یا رمز عبور اشتباه است" }, { status: 400 });
 
   const match = await bcrypt.compare(password, user.password);
-  if (!match) return NextResponse.json({ error: "Invalid credentials" }, { status: 400 });
+  if (!match)
+    return NextResponse.json({ error: "ایمیل یا رمز عبور اشتباه است" }, { status: 400 });
 
   const token = jwt.sign(
-    { id: user._id, role: user.role },
+    { id: user._id, role: user.role, name: user.name },
     process.env.JWT_SECRET!,
     { expiresIn: "7d" }
   );
 
-  return NextResponse.json({ token });
+  return NextResponse.json({ token, name: user.name, role: user.role });
 }

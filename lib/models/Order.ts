@@ -6,13 +6,14 @@ const orderSchema = new Schema(
     items: [
       {
         product: { type: Schema.Types.ObjectId, ref: "Product" },
+        title: String,
+        price: Number,
         quantity: Number,
-        price: Number
-      }
+      },
     ],
     totalAmount: Number,
     status: { type: String, default: "pending" },
-    paymentRef: String
+    paymentRef: String,
   },
   { timestamps: true }
 );

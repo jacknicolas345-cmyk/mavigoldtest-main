@@ -1,97 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gold: #c5a059; /* طلایی ملایم‌تر و شیک‌تر */
+  --color-gold: #c5a059;
   --color-dark: #0f0f0f;
   --color-gold-light: #e5d5b7;
-  
-  /* اضافه کردن انیمیشن نرم برای کارت‌ها */
-  --animate-fade-in: fade-in 1s ease-out;
 }
 
 @layer base {
   body {
-    @apply bg-white text-[#1a1a1a] antialiased tracking-wide;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-family: "Segoe UI", Tahoma, sans-serif;
   }
 }
 
-/* @import "tailwindcss";
-
-.gold-text {
-  color: #d4af37 !important;
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
-
-.bg-black-test {
-  background-color: #000 !important;
-} */
-
-
-/* @import "tailwindcss";
-
-@theme {
-  --color-gold: #d4af37;
-  --color-light: #f8f9fa;
-  --color-dark: #121212;
-
-  --shadow-gold: 0 4px 15px -3px rgba(212, 175, 55, 0.4), 0 2px 6px -2px rgba(212, 175, 55, 0.2);
-
-  --font-yekan: "Tahoma", sans-serif;
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-
-@layer base {
-  *, ::after, ::before {
-    border-color: var(--color-gold);
-  }
-  
-  body {
-    @apply bg-white text-slate-900 antialiased;
-    margin: 0;
-    padding: 0;
-  }
-}
-
-header, footer, main, section {
-  display: block;
-} */
-
-/* @import "tailwindcss";
-
-@theme {
-  --color-dark: #1a1a1a;
-  --color-light: #f8f9fa;
-  --font-yekan: "Yekan", "Tahoma", sans-serif;
-}
-
-@layer base {
-  body {
-    @apply antialiased;
-  }
-}
-
-@layer utilities {
-  .img-placeholder {
-    @apply bg-slate-200 flex items-center justify-center text-slate-500 font-sans border border-slate-300;
-    position: relative;
-    overflow: hidden;
-  }
-  .img-placeholder::after {
-    content: "تصویر موجود نیست";
-    @apply text-xs absolute;
-  }
-} */
-
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
-/* 
-@font-face {
-  font-family: "IRANYekan";
-  src: url("/fonts/IRANYekan.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
-
-body {
-  @apply bg-dark text-light font-yekan;
-} */

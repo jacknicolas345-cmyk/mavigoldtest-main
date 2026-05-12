@@ -3,7 +3,8 @@ import mongoose, { Schema, models } from "mongoose";
 const categorySchema = new Schema(
   {
     name: String,
-    slug: { type: String, unique: true }
+    slug: { type: String, unique: true },
+    image: String,
   },
   { timestamps: true }
 );
