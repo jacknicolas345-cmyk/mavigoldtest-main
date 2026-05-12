@@ -17,7 +17,6 @@ export async function GET(
 }
 
 
-import { NextResponse } from "next/server";
 import Product from "@/lib/models/Product";
 import { connectDB } from "@/lib/db";
 
