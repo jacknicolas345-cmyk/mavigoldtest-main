@@ -1,0 +1,8 @@
+name = "mavigoldtest-main"
+compatibility_date = "2026-05-11"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".open-next/assets"
+
+[vars]
+MONGODB_URI = "mongodb+srv://jacknicolas345_db_user:NEW_PASSWORD@cluster0.i0cvn6t.mongodb.net/?appName=Cluster0"
+JWT_SECRET = "mavi_gold_secret_2024"
