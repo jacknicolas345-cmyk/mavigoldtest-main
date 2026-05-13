@@ -20,18 +20,28 @@ export default function AdminProductsPage() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!user) { router.push("/login"); return; }
-    if (user.role !== "admin") { router.push("/"); return; }
+    // صبر کن تا auth load بشه
+    if (user === undefined) return;
+    if (user === null) {
+      router.push("/login");
+      return;
+    }
+    if (user.role !== "admin") {
+      router.push("/");
+      return;
+    }
     loadData();
   }, [user]);
 
   const loadData = async () => {
-    const [pr, ct] = await Promise.all([
-      fetch("/api/products").then(r => r.json()),
-      fetch("/api/categories").then(r => r.json()),
-    ]);
-    setProducts(Array.isArray(pr) ? pr : []);
-    setCategories(Array.isArray(ct) ? ct : []);
+    try {
+      const [pr, ct] = await Promise.all([
+        fetch("/api/products").then(r => r.json()),
+        fetch("/api/categories").then(r => r.json()),
+      ]);
+      setProducts(Array.isArray(pr) ? pr : []);
+      setCategories(Array.isArray(ct) ? ct : []);
+    } catch {}
     setLoading(false);
   };
 
@@ -86,7 +96,10 @@ export default function AdminProductsPage() {
     loadData();
   };
 
-  if (loading) return <div className="text-center py-20 text-gold animate-pulse">در حال بارگذاری...</div>;
+  // هنوز در حال بررسی auth
+  if (user === undefined || (user !== null && loading)) {
+    return <div className="text-center py-20 text-gold animate-pulse">در حال بارگذاری...</div>;
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-16">
@@ -121,44 +134,29 @@ export default function AdminProductsPage() {
               />
             </div>
           ))}
-
-          {/* آپلود تصویر */}
           <div className="md:col-span-2">
             <label className="block text-xs text-gray-500 mb-1 tracking-widest uppercase">تصویر محصول</label>
             <div className="flex gap-3 items-start">
-              <div className="flex-1">
-                <input
-                  type="text"
-                  value={form.image}
-                  onChange={(e) => setForm({ ...form, image: e.target.value })}
-                  placeholder="آدرس URL تصویر را وارد کنید"
-                  className="w-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-gold"
-                />
-              </div>
-              <div className="text-xs text-gray-400 py-2">یا</div>
-              <div>
-                <input
-                  type="file"
-                  ref={fileRef}
-                  accept="image/*"
-                  onChange={handleUpload}
-                  className="hidden"
-                />
-                <button
-                  type="button"
-                  onClick={() => fileRef.current?.click()}
-                  disabled={uploading}
-                  className="border border-gold text-gold text-xs px-4 py-2 hover:bg-gold hover:text-white transition disabled:opacity-50 whitespace-nowrap"
-                >
-                  {uploading ? "در حال آپلود..." : "آپلود تصویر"}
-                </button>
-              </div>
+              <input
+                type="text"
+                value={form.image}
+                onChange={(e) => setForm({ ...form, image: e.target.value })}
+                placeholder="آدرس URL تصویر"
+                className="flex-1 border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-gold"
+              />
+              <span className="text-xs text-gray-400 py-2">یا</span>
+              <input type="file" ref={fileRef} accept="image/*" onChange={handleUpload} className="hidden" />
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                disabled={uploading}
+                className="border border-gold text-gold text-xs px-4 py-2 hover:bg-gold hover:text-white transition disabled:opacity-50 whitespace-nowrap"
+              >
+                {uploading ? "آپلود..." : "آپلود تصویر"}
+              </button>
             </div>
-            {form.image && (
-              <img src={form.image} alt="preview" className="mt-2 h-20 w-20 object-cover border border-gray-200" />
-            )}
+            {form.image && <img src={form.image} className="mt-2 h-20 w-20 object-cover border border-gray-200" />}
           </div>
-
           <div>
             <label className="block text-xs text-gray-500 mb-1 tracking-widest uppercase">دسته‌بندی</label>
             <select
@@ -170,7 +168,6 @@ export default function AdminProductsPage() {
               {categories.map((c) => <option key={c._id} value={c._id}>{c.name}</option>)}
             </select>
           </div>
-
           <div className="md:col-span-2">
             <label className="block text-xs text-gray-500 mb-1 tracking-widest uppercase">توضیحات</label>
             <textarea
@@ -181,11 +178,8 @@ export default function AdminProductsPage() {
             />
           </div>
           <div className="md:col-span-2">
-            <button
-              type="submit"
-              disabled={saving}
-              className="bg-dark text-white px-10 py-3 text-xs tracking-widest uppercase hover:bg-gold transition disabled:opacity-50"
-            >
+            <button type="submit" disabled={saving}
+              className="bg-dark text-white px-10 py-3 text-xs tracking-widest uppercase hover:bg-gold transition disabled:opacity-50">
               {saving ? "در حال ذخیره..." : "ذخیره محصول"}
             </button>
           </div>
@@ -208,11 +202,9 @@ export default function AdminProductsPage() {
               <tr key={p._id} className="border-b border-gray-50 hover:bg-gray-50 transition">
                 <td className="p-4">
                   <div className="flex items-center gap-3">
-                    <img
-                      src={p.image || "https://placehold.co/40x40/1a1a1a/c5a059?text=img"}
+                    <img src={p.image || "https://placehold.co/40x40/1a1a1a/c5a059?text=img"}
                       className="w-10 h-10 object-cover bg-gray-100"
-                      onError={(e) => { e.currentTarget.src = "https://placehold.co/40x40/1a1a1a/c5a059?text=img"; }}
-                    />
+                      onError={(e) => { e.currentTarget.src = "https://placehold.co/40x40/1a1a1a/c5a059?text=img"; }} />
                     <span className="font-medium">{p.title}</span>
                   </div>
                 </td>
@@ -220,20 +212,13 @@ export default function AdminProductsPage() {
                 <td className="p-4 text-gray-500">{p.stock}</td>
                 <td className="p-4 text-gray-500">{p.category?.name || "—"}</td>
                 <td className="p-4">
-                  <button
-                    onClick={() => handleDelete(p.slug)}
-                    className="text-red-400 text-xs hover:text-red-600 transition"
-                  >
-                    حذف
-                  </button>
+                  <button onClick={() => handleDelete(p.slug)} className="text-red-400 text-xs hover:text-red-600 transition">حذف</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        {products.length === 0 && (
-          <p className="text-center text-gray-400 py-10 text-sm">هیچ محصولی وجود ندارد</p>
-        )}
+        {products.length === 0 && <p className="text-center text-gray-400 py-10 text-sm">هیچ محصولی وجود ندارد</p>}
       </div>
     </div>
   );
