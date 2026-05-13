@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/lib/context/AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AdminProductsPage() {
@@ -15,7 +15,9 @@ export default function AdminProductsPage() {
     title: "", slug: "", price: "", image: "", description: "", stock: "", category: ""
   });
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [msg, setMsg] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!user) { router.push("/login"); return; }
@@ -31,6 +33,26 @@ export default function AdminProductsPage() {
     setProducts(Array.isArray(pr) ? pr : []);
     setCategories(Array.isArray(ct) ? ct : []);
     setLoading(false);
+  };
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      if (data.url) {
+        setForm(f => ({ ...f, image: data.url }));
+        setMsg("تصویر آپلود شد ✓");
+      } else {
+        setMsg("خطا در آپلود");
+      }
+    } catch { setMsg("خطا در آپلود"); }
+    setUploading(false);
+    setTimeout(() => setMsg(""), 3000);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -86,7 +108,6 @@ export default function AdminProductsPage() {
             { key: "title", label: "عنوان", type: "text", required: true },
             { key: "slug", label: "اسلاگ (انگلیسی)", type: "text", required: true },
             { key: "price", label: "قیمت (تومان)", type: "number", required: true },
-            { key: "image", label: "آدرس تصویر", type: "text" },
             { key: "stock", label: "موجودی", type: "number" },
           ].map(({ key, label, type, required }) => (
             <div key={key}>
@@ -100,6 +121,44 @@ export default function AdminProductsPage() {
               />
             </div>
           ))}
+
+          {/* آپلود تصویر */}
+          <div className="md:col-span-2">
+            <label className="block text-xs text-gray-500 mb-1 tracking-widest uppercase">تصویر محصول</label>
+            <div className="flex gap-3 items-start">
+              <div className="flex-1">
+                <input
+                  type="text"
+                  value={form.image}
+                  onChange={(e) => setForm({ ...form, image: e.target.value })}
+                  placeholder="آدرس URL تصویر را وارد کنید"
+                  className="w-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-gold"
+                />
+              </div>
+              <div className="text-xs text-gray-400 py-2">یا</div>
+              <div>
+                <input
+                  type="file"
+                  ref={fileRef}
+                  accept="image/*"
+                  onChange={handleUpload}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading}
+                  className="border border-gold text-gold text-xs px-4 py-2 hover:bg-gold hover:text-white transition disabled:opacity-50 whitespace-nowrap"
+                >
+                  {uploading ? "در حال آپلود..." : "آپلود تصویر"}
+                </button>
+              </div>
+            </div>
+            {form.image && (
+              <img src={form.image} alt="preview" className="mt-2 h-20 w-20 object-cover border border-gray-200" />
+            )}
+          </div>
+
           <div>
             <label className="block text-xs text-gray-500 mb-1 tracking-widest uppercase">دسته‌بندی</label>
             <select
@@ -111,6 +170,7 @@ export default function AdminProductsPage() {
               {categories.map((c) => <option key={c._id} value={c._id}>{c.name}</option>)}
             </select>
           </div>
+
           <div className="md:col-span-2">
             <label className="block text-xs text-gray-500 mb-1 tracking-widest uppercase">توضیحات</label>
             <textarea
@@ -149,7 +209,7 @@ export default function AdminProductsPage() {
                 <td className="p-4">
                   <div className="flex items-center gap-3">
                     <img
-                      src={p.image || `https://placehold.co/40x40/1a1a1a/c5a059?text=img`}
+                      src={p.image || "https://placehold.co/40x40/1a1a1a/c5a059?text=img"}
                       className="w-10 h-10 object-cover bg-gray-100"
                       onError={(e) => { e.currentTarget.src = "https://placehold.co/40x40/1a1a1a/c5a059?text=img"; }}
                     />
