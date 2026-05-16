@@ -2,14 +2,16 @@ import ProductCard from "@/components/ProductCard";
 
 async function getProducts(slug: string) {
   try {
-    const url = slug === "all"
-      ? `${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/products`
-      : `${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/products`;
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/products`, {
+      cache: "no-store",
+    });
     const data = await res.json();
     if (!Array.isArray(data)) return [];
     if (slug === "all") return data;
-    return data.filter((p: any) => p.category?.slug === slug || p.category?.name === slug);
+    return data.filter((p: any) => 
+      p.category?.slug === slug || 
+      p.category?.name === slug
+    );
   } catch {
     return [];
   }
@@ -29,7 +31,6 @@ export default async function CategoryPage({ params }: { params: { slug: string 
 
   return (
     <div className="min-h-screen">
-      {/* هدر دسته‌بندی */}
       <div className="bg-dark text-white py-16 text-center">
         <p className="text-gold text-xs tracking-widest uppercase mb-3">کلکسیون</p>
         <h1 className="text-4xl font-light tracking-widest">{title}</h1>
